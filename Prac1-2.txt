@@ -1,0 +1,32 @@
+Practical 1:Install Docker on Ec2 Machine and Perform Life Cycle operation on any three Images including Nginx
+>sudo -i
+>docker run hello-world
+>docker run --name mycentos -d centos
+>docker run --name mynginx -p 7089:80 -d niginx
+>docker images
+>docker ps -a
+LIFE CYCLE ON RUNNING CONTAINER 
+>docker pause containerID
+>docker unpause containerID
+>docker stop containerID
+>docker start containerID
+>docker kill containerID
+
+Practical 2:CREATE YOUR OWN IMAGE ,CONFIGURE YOUR OWN SPACE IN DOCKER HUB AND PUSH YOUR IMAGE INTO DOCKERHUB WORKSPACE.DELETE PREVIOUSLY AVAILABLE IMAGES FROM YOUR LOCAL MACHINE. AND PULL YOUR OWN IMAGE FROM DOCKER HUB.
+>sudo -i
+>docker images
+>nano Dockerfile
+FROM ubuntu
+MAINTAINER utsavpopat22@gmail.com
+RUN apt-get update
+RUN apt-get install nginx -y
+CMD ["echo","Image created"]
+>docker build -t imagename .
+>docker login
+>docker tag imagename username/reponame
+>docker push username/reponame
+>docker images
+>docker rmi -f imageid
+>docker pull username/reponame:latest
+>docker images
+
