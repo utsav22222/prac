@@ -1,0 +1,118 @@
+Compose:
+1. To download and install the Compose CLI plugin, run:
+#curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+2.Apply executable permissions to the binary:
+#chmod +x /usr/local/bin/docker-compose
+3. Test the installation.
+#docker compose version
+--------------------------------------
+ownimage
+
+curl -fsSl https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+nano Dockerfile
+FROM ubuntu
+MAINTAINER utsavpopat22@gmail.com
+RUN apt-get update -y
+RUN apt-get install nginx -y
+CMD ["echo","image created"]
+
+docker build -t utsav:0.1 .
+docker tag utsav:0.1 utsav22222/utsav
+docker login
+docker push utsav22222/utsav:0.1
+docker push utsav22222/utsav
+docker images
+docker rmi --force imaageID
+docker pull utsav22222/utsav:0.1
+
+------------------------------------------
+
+pvt_registry
+
+curl -fsSl https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+docker pull registry
+docker run -d -p 5000:5000 --name registry registry:latest
+docker pull centos
+docker tag imgID localhost:5000/centos
+docker push localhost:5000/centos
+docker rmi --force imgID
+docker pull localhost:5000/centos
+
+--------------------------------------------
+swarm 
+
+curl -fsSl https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+$ docker info
+$ docker swarm init
+$ docker node ls
+$ docker service create alpine ping www.google.com
+$ docker service ls
+$ docker service ps serviceID
+$ docker container ls
+-scale up and rollback service
+$ docker service scale serviceID=5
+$ docker service ps serviceID
+$ docker service rollback serviceID
+
+-launch 3 more instances(worker nodes)
+-on manager node
+$ docker swarm join-token worker  
+-copy paste command on all worker nodes
+$ docker node ls
+-create another service
+$ docker service create --replicas 5 alpine ping www.dypiu.ac.in
+$ docker service ls
+$ docker service ps serviceiD
+$ docker container ls
+-go to worker nodes and write 
+$ docker container ls
+------------------------------
+health check
+
+mkdir health
+cd health
+docker container run --name pg1 -e POSTGRES_PASSWORD=mypassword -d postgres
+docker ps
+docker container exec -it pg1 bash
+pg_isready -U postgres
+exit
+docker container run --name pg2 -e POSTGRES_PASSWORD=mypassword --health-cmd="pg_isready -U postgres ||exit1" -d postgres
+ 
+docker ps
+
+docker container run --name pg3 -e POSTGRES_PASSWORD=mypassword --health-cmd="pg_isready -U root ||exit1" -d postgres
+
+------------------------------------------
+jenkins
+
+curl -fsSl https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+docker pull jenkins/jenkins:lts
+docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins
+---------------------------------------------
+lifecycle
+
+curl -fsSl https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+docker run hello-world
+docker run --name myweb -p 7089:80 -d nginx
+docker run --name mycentos -d centos
+dacker images
+docker ps -a
+docker pause CID
+docker unpause
+docker stop
+docker strat
+docker rm
+docker kill
+docker stats
+docker top
+docker history
